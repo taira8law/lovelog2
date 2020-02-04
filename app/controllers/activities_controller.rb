@@ -35,11 +35,10 @@ class ActivitiesController < ApplicationController
   end
 
   def update
-    @activity = Activity.new(activity_params)
-    @activity.user_id = current_user.id
+    @activity = Activity.find(params[:id])
     @lover=Lover.find(@activity.lover_id)
     
-    if @activity.save
+    if @activity.update(activity_params)
       flash[:success] = '活動を登録しました。'
       redirect_to @lover
     else
@@ -57,6 +56,6 @@ class ActivitiesController < ApplicationController
   
   def activity_params
     puts params
-    params.require(:activity).permit(:content, :activity_date, :lover_id)
+    params.require(:activity).permit(:id, :content, :activity_date, :lover_id)
   end
 end
