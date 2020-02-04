@@ -33,12 +33,17 @@ class LoversController < ApplicationController
   def update
     @lover = Lover.find(params[:id])
     
-    if @lover.update(lover_params)
-      flash[:success] = '恋人は正常に更新されました。'
+    if lover_params[:status]=='交際中' && current_user.lovers.find_by(status: '交際中')
+      flash[:danger] = '交際中の恋人は一人のみしか登録できません。'
       redirect_to @lover
     else
-      flash.now[:danger] = '恋人の更新に失敗しました。'
-      render :new
+      if @lover.update(lover_params)
+        flash[:success] = '恋人は正常に更新されました。'
+        redirect_to @lover
+      else
+        flash.now[:danger] = '恋人の更新に失敗しました。'
+        render :new
+      end
     end
   end
 
