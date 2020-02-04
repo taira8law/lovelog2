@@ -16,12 +16,17 @@ class LoversController < ApplicationController
   def create
     @lover = current_user.lovers.build(lover_params)
 
-    if @lover.save
-      flash[:success] = '恋人を登録しました。'
-      redirect_to @lover
-    else
-      flash.now[:danger] = '恋人の登録に失敗しました。'
+    if @lover.status=='交際中' && current_user.lovers.find_by(status: '交際中')
+      flash.now[:danger] = '交際中の恋人は一人のみしか登録できません。'
       render :new
+    else
+      if @lover.save
+        flash[:success] = '恋人を登録しました。'
+        redirect_to @lover
+      else
+        flash.now[:danger] = '恋人の登録に失敗しました。'
+        render :new
+      end
     end
   end
 
