@@ -47,8 +47,11 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
+
 production:
-  <<: *default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
   database: lovelog2_production
   username: lovelog2
   password: <%= ENV['LOVELOG2_DATABASE_PASSWORD'] %>

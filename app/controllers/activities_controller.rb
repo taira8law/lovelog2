@@ -1,4 +1,6 @@
 class ActivitiesController < ApplicationController
+  before_action :set_activity, only:[:destroy, :edit, :update, :show]
+  
   def create
     @activity = Activity.new(activity_params)
     @activity.user_id = current_user.id
@@ -21,7 +23,6 @@ class ActivitiesController < ApplicationController
   end
 
   def destroy
-    @activity = Activity.find(params[:id])
     @activity.destroy
     @lover = Lover.find(@activity.lover_id)
     
@@ -30,12 +31,10 @@ class ActivitiesController < ApplicationController
   end
 
   def edit
-    @activity = Activity.find(params[:id])
     @lover=Lover.find(@activity.lover_id)
   end
 
   def update
-    @activity = Activity.find(params[:id])
     @lover=Lover.find(@activity.lover_id)
     
     if @activity.update(activity_params)
@@ -48,11 +47,14 @@ class ActivitiesController < ApplicationController
   end
 
   def show
-    @activity = Activity.find(params[:id])
     @lover = Lover.find(@activity.lover_id)
   end
   
   private
+
+  def set_activity
+      @activity = Activity.find(params[:id])
+  end
   
   def activity_params
     puts params

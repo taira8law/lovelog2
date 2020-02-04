@@ -1,10 +1,15 @@
 <% if logged_in? %>
   <h1>Lovelogトップページ</h1>
   <p>ログイン完了ユーザ: <%= current_user.name %></p>
-  <p>交際中の恋人: <%#= link_to @lover.name, @lover %></p>
+  <p>交際中の恋人:
+  <% if @lover %>
+    <%= link_to @lover.name, @lover %>
+  <% else %>
+    <%= '恋人未登録' %>
+  <% end %>
+  </p>
   <%= link_to '恋人一覧', lovers_path %>
   <%= link_to '恋人登録', new_lover_path %>
-  <%= link_to '活動登録', new_activity_path %>
   <%= link_to 'ログアウト', logout_path, method: :delete %>
   
   <h2>活動の一覧</h2>
