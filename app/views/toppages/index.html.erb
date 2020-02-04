@@ -1,0 +1,20 @@
+<% if logged_in? %>
+  <h1>Lovelogトップページ</h1>
+  <p>ログイン完了ユーザ: <%= current_user.name %></p>
+  <p>交際中の恋人: <%#= link_to @lover.name, @lover %></p>
+  <%= link_to '恋人一覧', lovers_path %>
+  <%= link_to '恋人登録', new_lover_path %>
+  <%= link_to '活動登録', new_activity_path %>
+  <%= link_to 'ログアウト', logout_path, method: :delete %>
+  
+  <h2>活動の一覧</h2>
+  <%= render 'activities/activities', activities: @activities %>
+<% else %>
+  <div class="center jumbotron">
+    <div class="text-center">
+      <h1>Welcome to the Lovelogs</h1>
+      <p>アカウントがない方はこちら</p><%= link_to 'Sign up now!', signup_path, class: 'btn btn-lg btn-primary' %>
+      <p>ログインはこちらから</p><%= link_to 'Log in', login_path, class: 'btn btn-lg btn-primary' %>
+    </div>
+  </div>
+<% end %>

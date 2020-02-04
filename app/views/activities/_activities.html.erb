@@ -1,0 +1,18 @@
+<ul class="list-unstyled">
+  <% activities.each do |activity| %>
+    <li class="media mb-3">
+      <div class="media-body">
+        <div>
+          <%= link_to activity.lover.name, lover_path(activity.lover) %>
+        </div>
+        <div>
+          <p><%= link_to '活動日', activity %> : <%= link_to activity.activity_date, activity %></p>
+          <p>活動内容: <%= activity.content %></p>
+        </div>
+        <%= link_to '編集', edit_activity_path(activity) %>
+        <%= link_to '削除', activity, method: :delete , data: {confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
+      </div>
+    </li>
+  <% end %>
+  <%= paginate activities %>
+</ul>

@@ -1,0 +1,30 @@
+<h1>恋人の詳細画面</h1>
+<p>名前: <%= @lover.name %></p>
+<p>ステータス: <%= @lover.status %></p>
+<%= link_to '恋人の編集', edit_lover_path(@lover) %>
+<%= link_to "恋人の削除", @lover, method: :delete, data: {confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
+
+<h2>活動の登録</h2>
+<%= form_with(model: @activity, local: true) do |f| %>
+
+  <div class="form-group">
+    <%= f.label :activity_date, '活動日' %>
+    <%= f.date_field :activity_date, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :content, '活動内容' %>
+    <%= f.text_field :content, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.hidden_field :lover_id,:value => @lover.id %>
+  </div>
+      
+  <%= f.submit '保存', class: 'btn btn-primary' %>
+<% end %>
+
+<h2>活動の一覧</h2>
+<%= render 'activities/activities', activities: @activities %>
+
+<%= link_to 'トップページへ戻る',root_url%>    

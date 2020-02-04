@@ -1,0 +1,6 @@
+<h1>活動詳細画面</h1>
+<p>活動日: <%= @activity.activity_date %></p>
+<p>活動内容: <%= @activity.content %></p>
+<p>恋人: <%= link_to @lover.name, @lover %></p>
+<%= link_to '編集', edit_activity_path(@activity) %>
+<%= link_to '削除', @activity, method: :delete, data: {confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
