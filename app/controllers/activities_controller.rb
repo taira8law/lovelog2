@@ -1,5 +1,7 @@
 class ActivitiesController < ApplicationController
+  before_action :require_user_logged_in
   before_action :set_activity, only:[:destroy, :edit, :update, :show]
+  before_action :correct_user, only: [:edit, :update, :show, :destroy]
   
   def create
     @activity = Activity.new(activity_params)
@@ -59,5 +61,12 @@ class ActivitiesController < ApplicationController
   def activity_params
     puts params
     params.require(:activity).permit(:id, :content, :activity_date, :lover_id)
+  end
+  
+  def correct_user
+    @activity = current_user.activities.find_by(id: params[:id])
+    unless @activity
+      redirect_to root_url
+    end
   end
 end

@@ -1,4 +1,7 @@
 class LoversController < ApplicationController
+  before_action :correct_user, only: [:edit, :update, :show, :destroy]
+  before_action :require_user_logged_in
+  
   def index
     @lovers = current_user.lovers.order(id: :desc).page(params[:page])
   end
@@ -63,5 +66,12 @@ class LoversController < ApplicationController
     
   def lover_params
     params.require(:lover).permit(:name, :status)
+  end
+  
+  def correct_user
+    @lover = current_user.lovers.find_by(id: params[:id])
+    unless @lover
+      redirect_to root_url
+    end
   end
 end
