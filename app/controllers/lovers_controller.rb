@@ -35,8 +35,9 @@ class LoversController < ApplicationController
 
   def update
     @lover = Lover.find(params[:id])
+    current_lover = current_user.lovers.find_by(status: '交際中') 
     
-    if lover_params[:status]=='交際中' && current_user.lovers.find_by(status: '交際中')
+    if lover_params[:status]=='交際中' && current_lover && @lover.id != current_lover.id
       flash[:danger] = '交際中の恋人は一人のみしか登録できません。'
       redirect_to @lover
     else
