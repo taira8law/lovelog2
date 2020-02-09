@@ -1,19 +1,78 @@
 <% if logged_in? %>
-  <h1>Lovelogトップページ</h1>
   <p>ログイン完了ユーザ: <%= current_user.name %></p>
   <p>交際中の恋人:
   <% if @lover %>
     <%= link_to @lover.name, @lover %>
+    <% if @lover.image? %>
+      <%= image_tag @lover.image.url %>
+    <% else %>
+      <%= image_tag "noimage.gif" %>
+    <% end %>
   <% else %>
     <%= '恋人未登録' %>
   <% end %>
   </p>
-  <%= link_to '恋人一覧', lovers_path %>
-  <%= link_to '恋人登録', new_lover_path %>
-  <%= link_to 'ログアウト', logout_path, method: :delete %>
-  
+
+  <div class="row">
+    <div class="col-sm-3">
+    <%= link_to '恋人一覧', lovers_path , class: 'btn btn-primary btn-block' %>
+    </div>
+    <div class="col-sm-3">
+      <%= link_to '恋人登録', new_lover_path , class: 'btn btn-primary btn-block' %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-3">
+      <%= form_with(model: @activity, local: true) do |f| %>
+
+        <div class="form-group">
+          <%= f.label :lover_id, '恋人' %>
+          <%= f.select :lover_id, @lovers.map { |lover| [lover.name, lover.id] }, :include_blank => '恋人を選択',class: 'form-control' %>
+        </div>
+         
+        <div class="form-group">
+          <%= f.label :activity_date, '活動日' %>
+          <%= f.date_field :activity_date, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :content, '活動内容' %>
+          <%= f.text_field :content, class: 'form-control' %>
+        </div>
+
+        <%= f.submit '保存', class: 'btn btn-primary' %>
+      <% end %>
+    </div>
+  </div>
+
   <h2>活動の一覧</h2>
-  <%= render 'activities/activities', activities: @activities %>
+    <% if @activities.any? %>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>活動日</th>
+            <th>活動内容</th>
+            <th>恋人</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @activities.each do |activity| %>
+            <% lover_act = Lover.find(activity.lover_id) %>
+            <tr>
+              <td><%= link_to activity.id, activity %></td>
+              <td><%= activity.activity_date %></td>
+              <td><%= activity.content %></td>
+              <td><%= link_to lover_act.name, lover_act %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div>
+        <%= paginate @activities %>
+      </div>
+    <% end %>
 <% else %>
   <div class="center jumbotron">
     <div class="text-center">

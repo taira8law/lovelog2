@@ -4,13 +4,14 @@ class ActivitiesController < ApplicationController
   before_action :correct_user, only: [:edit, :update, :show, :destroy]
   
   def create
-    @activity = Activity.new(activity_params)
-    @activity.user_id = current_user.id
-    @lover=Lover.find(@activity.lover_id)
+#    @activity = Activity.new(activity_params)
+#    @activity.user_id = current_user.id
+#    @lover=Lover.find(@activity.lover_id)
+    @activity = current_user.activities.build(activity_params)
 
     if @activity.save
       flash[:success] = '活動を登録しました。'
-      redirect_to @lover
+      redirect_to root_url
     else
       flash.now[:danger] = '活動の登録に失敗しました。'
       redirect_back(fallback_location: root_path) 

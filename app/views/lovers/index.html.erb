@@ -1,23 +1,33 @@
 <h1>恋人一覧</h1>
-<ul class="list-unstyled">
-  <% @lovers.each do |lover| %>
-    <li class="media mb-3">
-      <div class="media-body">
-        <div>
-          恋人の名前: <%= link_to lover.name, lover %>
-        </div>
-        <div>
-          <p>ステータス: <%= lover.status %></p>
-        </div>
-        <div>
-          <% if current_user.id == lover.user_id %>
-            <%= link_to "編集", edit_lover_path(lover) %>
-            <%= link_to "削除", lover, method: :delete, data: {confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
+    <% if @lovers.any? %>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>恋人</th>
+            <th>ステータス</th>
+            <th>画像</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @lovers.each do |lover| %>
+            <tr>
+              <td><%= link_to lover.id, lover %></td>
+              <td><%= lover.name %></td>
+              <td><%= lover.status %></td>
+              <td>
+                <% if lover.image? %>
+                  <%= image_tag lover.image.url %>
+                <% else %>
+                  <%= image_tag "noimage.gif" %>
+                <% end %>
+              </td>
+            </tr>
           <% end %>
-        </div>
+        </tbody>
+      </table>
+      <div>
+        <%= paginate @lovers %>
       </div>
-    </li>  
-  <% end %>
-  <%= paginate @lovers %>
-</ul>
+    <% end %>
 <%= link_to 'トップページへ戻る',root_url%>

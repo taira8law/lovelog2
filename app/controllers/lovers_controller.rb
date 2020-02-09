@@ -66,7 +66,7 @@ class LoversController < ApplicationController
   private
     
   def lover_params
-    params.require(:lover).permit(:name, :status)
+    params.require(:lover).permit(:name, :status, :image)
   end
   
   def correct_user
