@@ -3,11 +3,11 @@
   <p>交際中の恋人:
   <% if @lover %>
     <%= link_to @lover.name, @lover %>
-    <% if @lover.image? %>
-      <%= image_tag @lover.image.url %>
-    <% else %>
-      <%= image_tag "noimage.gif" %>
-    <% end %>
+    <%# if @lover.image? %>
+      <%#= image_tag @lover.image.url %>
+    <%# else %>
+      <%#= image_tag "noimage.gif" %>
+    <%# end %>
   <% else %>
     <%= '恋人未登録' %>
   <% end %>

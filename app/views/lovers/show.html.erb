@@ -1,11 +1,11 @@
 <h1>恋人の詳細画面</h1>
 <p>名前: <%= @lover.name %></p>
 <p>ステータス: <%= @lover.status %></p>
-<% if @lover.image? %>
-  <%= image_tag @lover.image.url %>
-<% else %>
-  <%= image_tag "noimage.gif" %>
-<% end %>
+<%# if @lover.image? %>
+  <%#= image_tag @lover.image.url %>
+<%# else %>
+  <%#= image_tag "noimage.gif" %>
+<%# end %>
 <%= link_to '恋人の編集', edit_lover_path(@lover), class: 'btn btn-primary btn-sm' %>
 <%= link_to "恋人の削除", @lover, method: :delete, data: {confirm: "You sure?" }, class: 'btn btn-danger btn-sm' %>
 
